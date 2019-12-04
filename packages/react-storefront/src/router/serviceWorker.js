@@ -120,19 +120,23 @@ export async function clearCache() {
  * @private
  */
 export async function waitForServiceWorkerController() {
-  if (!navigator.serviceWorker || !navigator.serviceWorker.ready) {
+  if (!navigator.serviceWorker) {
     return false
   }
 
   return new Promise(resolve => {
-    navigator.serviceWorker.ready.then(() => {
-      if (navigator.serviceWorker.controller) {
-        return resolve(true)
-      }
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        return resolve(true)
+    navigator.serviceWorker.ready
+      .then(() => {
+        if (navigator.serviceWorker.controller) {
+          resolve(true)
+        }
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          resolve(true)
+        })
       })
-    })
+      // According to specs this should never reject. However, FF does reject when the setting
+      // to clear cache after window close is enabled
+      .catch(() => resolve(false))
   })
 }
 
