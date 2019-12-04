@@ -74,6 +74,10 @@ yarn release
 
 ## Changelog
 
+### 6.88.2
+
+- Fixed unhandled exceptions relating to service workers in Firefox and Safari.
+
 ### 6.68.1
 
 - Fixed a bug that prevented prefetching fallback routes.
