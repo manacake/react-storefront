@@ -501,14 +501,16 @@ metadata: {
 
 - Removes this warning about deprecated usage of `require("history/createBrowserHistory")`.
 
-### 6.36.3: Aug 5, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.36.2...v6.36.3)
+### 6.36.3: Aug 5, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.36.2..v6.36.3)
 
 - `Server` now properly handle the case when rendering an error fails
 - The app shell will no longer be throttled when prefetching.
+- (`..` diff)
 
-### 6.36.2: Aug 5, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.36.1...v6.36.2)
+### 6.36.2: Aug 5, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.36.1..v6.36.2)
 
 - `SearchResultsModelBase` nows updates `facetGroups` if defined in a search results response
+- (`..` diff)
 
 ### 6.36.1: Jul 26, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.36.0...v6.36.1)
 
@@ -894,27 +896,30 @@ class App extends Component {
 
 - Corrected some out-of-date peerDependencies.
 
-### 6.0.0: Jan 28, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v5.13.0...v6.0.0)
+### 6.0.0: Jan 28, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v5.13.0..v6.0.0)
 
 - Upgraded to mobx 4 and mobx-state-tree 3
 - Upgraded to babel 7
 - Upgraded to webpack 4
 - Upgraded to material-ui@3.8.1
+- (`..` diff)
 
-### 5.13.0: Mar 21, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v5.12.1...v5.13.0)
+### 5.13.0: Mar 21, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v5.12.1..v5.13.0)
 
 - Changes to `Filter` and `FilterButton`:
   - adds `LoadMask` into `Filter`'s `facetGroups` block when model is loading
   - disables clear all button when model is loading
   - clear all button semantics fixed: use `<button>` instead `<a>` w/o `href` attribute
+- (`..` diff)
 
 ### 5.12.1: Mar 13, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v5.12.0...v5.12.1)
 
 - Fixes a layout issue with the `Drawer` component on iOS <= 10
 
-### 5.12.0: Mar 7, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v5.11.0...v5.12.0)
+### 5.12.0: Mar 7, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v5.11.0..v5.12.0)
 
 - Added `AnalyticsProvider` for loading analytics on mount
+- (`..` diff)
 
 ### 5.11.0: Mar 6, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v5.10.2...v5.11.0)
 
@@ -952,9 +957,10 @@ class App extends Component {
 - Added a `state` field to `BreadcrumbModel` so that state can be passed to skeletons when the user clicks on a breadcrumb.
 - Added support for setting bundle analyzer mode using `ANALYZER_MODE` env variable.
 
-### 5.7.1: Jan 15, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v5.7.0...v5.7.1)
+### 5.7.1: Jan 15, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v5.7.0..v5.7.1)
 
 - Fixed case error with importing lodash/isFunction in Router.
+- (`..` diff)
 
 ### 5.7.0: Jan 11, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v5.6.3...v5.7.0)
 
@@ -977,12 +983,13 @@ class App extends Component {
 
 - Fix for production webpack builds with no options
 
-### 5.6.0: Dec 17, 2018 [diff](https://github.com/moovweb/react-storefront/compare/v5.5.0-2...v5.6.0)
+### 5.6.0: Dec 17, 2018 [diff](https://github.com/moovweb/react-storefront/compare/v5.5.0-2..v5.6.0)
 
 - Fix errors in SearchResultModelBase when filtering after paging.
 - Runs `yarn link:all` during CI builds to ensure that linking will work properly.
 - Transition to PWA and open filter/sort from AMP.
 - Added `variant="drawer|menu"` to `FilterButton`. The default is "`drawer`".
+- (`..` diff)
 
 ### 5.5.0-2: Dec 13, 2018 [diff](https://github.com/moovweb/react-storefront/compare/v5.4.0...v5.5.0-2)
 
@@ -1059,12 +1066,13 @@ class App extends Component {
 - Improved performance of page transitions by setting `app.loading` to `true` in `PageLink` to eliminate a reconciliation cycle.
 - The service worker now excludes mp4 videos from the catch-all runtime route to work around a known issue with videos and service workers in Safari.
 
-### 5.0.0: Nov 9, 2018 [diff](https://github.com/moovweb/react-storefront/compare/v4.10.1...v5.0.0)
+### 5.0.0: Nov 9, 2018 [diff](https://github.com/moovweb/react-storefront/compare/v4.10.1..v5.0.0)
 
 - Upgrade to Material UI 3
 - Improved responsive capabilities of many components
 - NavTabs can now have menus
 - Menu icon is now animated
+- (`..` diff)
 
 ### 4.10.1: Nov 12, 2018 [diff](https://github.com/moovweb/react-storefront/compare/v4.10.0...v4.10.1)
 
