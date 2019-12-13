@@ -13,7 +13,7 @@ module.exports = function(server) {
 
     Object.assign(res, {
       relayUpstreamCookies: Function.prototype,
-      cacheAtEdge: Function.prototype
+      cacheOnServer: Function.prototype
     })
 
     // shim get, which is provided on the moovweb platform

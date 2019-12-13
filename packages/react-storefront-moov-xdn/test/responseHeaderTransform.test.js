@@ -68,23 +68,32 @@ describe('responseHeaderTransform', () => {
     global.env.__static_origin_path__ = true
     global.env.path = '/service-worker.js'
     responseHeaderTransform()
-    expect(headers.header('cache-control')).toBe(`private, no-store, no-cache`)
-    expect(headers.header('x-moov-cache-control')).toBe(`max-age=${FAR_FUTURE}`)
+    expect(headers.header('cache-control')).toBe(
+      `private, no-store, no-cache, s-maxage=${FAR_FUTURE}`
+    )
+  })
+
+  it('should cache the service worker on the server', () => {
+    global.env.__static_origin_path__ = true
+    global.env.path = '/service-worker.js'
+    responseHeaderTransform()
+    expect(headers.header('cache-control')).toBe(
+      `private, no-store, no-cache, s-maxage=${FAR_FUTURE}`
+    )
   })
 
   it('should cache pwa static assets on the client and server', () => {
     global.env.__static_origin_path__ = true
     global.env.path = '/pwa/main.js'
     responseHeaderTransform()
-    expect(headers.header('cache-control')).toBe(`max-age=${FAR_FUTURE}`)
-    expect(headers.header('x-moov-cache-control')).toBe(`max-age=${FAR_FUTURE}`)
+    expect(headers.header('cache-control')).toBe(`max-age=${FAR_FUTURE}, s-maxage=${FAR_FUTURE}`)
   })
 
-  it('should cache all other static assets on the server', () => {
+  it('should cache all other static assets on the server and not send a no-cache to the client', () => {
     global.env.__static_origin_path__ = true
     global.env.path = '/foo.png'
     responseHeaderTransform()
-    expect(headers.header('x-moov-cache-control')).toBe(`max-age=${FAR_FUTURE}`)
+    expect(headers.header('cache-control')).toBe(`s-maxage=${FAR_FUTURE}`)
   })
 
   it('should set a cookie when env.SET_COOKIE is set', () => {
@@ -131,26 +140,19 @@ describe('responseHeaderTransform', () => {
   it('should remove cache-control headers when status > 400', () => {
     global.env.MOOV_PWA_RESPONSE = {
       cookies: [],
-      cache: {
-        serverMaxAge: 300,
-        clientMaxAge: 300
-      },
+      cache: { serverMaxAge: 300, clientMaxAge: 300 },
       statusCode: 404
     }
 
     responseHeaderTransform()
 
     expect(headers.header('cache-control')).not.toBeDefined()
-    expect(headers.header('x-moov-cache-control')).not.toBeDefined()
   })
 
   it('should remove cache-control headers when redirecting with 302', () => {
     global.env.MOOV_PWA_RESPONSE = {
       cookies: [],
-      cache: {
-        serverMaxAge: 300,
-        clientMaxAge: 300
-      },
+      cache: { serverMaxAge: 300, clientMaxAge: 300 },
       redirectTo: '/',
       statusCode: 302
     }
@@ -158,7 +160,6 @@ describe('responseHeaderTransform', () => {
     responseHeaderTransform()
 
     expect(headers.header('cache-control')).not.toBeDefined()
-    expect(headers.header('x-moov-cache-control')).not.toBeDefined()
   })
 
   it('should set cache-control: private, no-store, no-cache when simulating a prefetch rejection', () => {
@@ -186,7 +187,7 @@ describe('responseHeaderTransform', () => {
       reset()
       global.env.path = path
       responseHeaderTransform()
-      expect(headers.header('x-moov-cache-control')).toBe('max-age=86400')
+      expect(headers.header('cache-control')).toBe('s-maxage=86400')
     })
   })
 
@@ -204,7 +205,7 @@ describe('responseHeaderTransform', () => {
       reset()
       global.env.path = path
       responseHeaderTransform({ cacheProxiedAssets: { serverMaxAge: 60 } })
-      expect(headers.header('x-moov-cache-control')).toBe('max-age=60')
+      expect(headers.header('cache-control')).toBe('s-maxage=60')
     })
   })
 

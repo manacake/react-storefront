@@ -6,11 +6,10 @@
 /**
  * Sets the correct response headers to configure browser and server caching
  * @param {Object} options
- * @param {Number} options.serverMaxAge The max age in seconds for edge caches.
- * @param {Number} options.serverStaleWhileRevalidate The number seconds beyond `serverMaxAge` when a stale response will be served from the cache.
+ * @param {Number} options.serverMaxAge The TTL for the edge caches.  Set to 0 to send a no-cache.  Omit to send no value for the client.
  * @param {Number} options.browserMaxAge The TTL for the browser's cache
  */
-export function cache({ serverMaxAge, serverStaleWhileRevalidate, browserMaxAge }) {
+export function cache({ serverMaxAge, browserMaxAge }) {
   const cacheControl = []
 
   if (browserMaxAge === 0) {
@@ -19,23 +18,13 @@ export function cache({ serverMaxAge, serverStaleWhileRevalidate, browserMaxAge 
     cacheControl.push(`max-age=${browserMaxAge}`)
   }
 
-  const serverHeaders = []
-
   if (serverMaxAge) {
-    serverHeaders.push(`max-age=${serverMaxAge}`)
-  }
-
-  if (serverStaleWhileRevalidate) {
-    serverHeaders.push(`stale-while-revalidate=${serverStaleWhileRevalidate}`)
-  }
-
-  if (serverHeaders.length) {
     // remove these headers so varnish caching works correctly
     headers.removeAllHeaders('Age')
     headers.removeAllHeaders('Via')
     headers.removeAllHeaders('Expires')
     headers.header('X-Moov-Cache', 'true')
-    headers.header('x-moov-cache-control', serverHeaders.join(', '))
+    cacheControl.push(`s-maxage=${serverMaxAge}`)
   }
 
   if (cacheControl.length) {

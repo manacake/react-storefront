@@ -35,8 +35,6 @@ import { SURROGATE_KEY } from './headers'
  * @param {Number} options.edge
  * @param {Number} options.edge.maxAgeSeconds The number of seconds the result should be cached on
  *  the server.  The maxAgeSeconds key is required when specifying a server config.
- * @param {Number} options.edge.staleWhileRevalidateSeconds Use this in combination
- *  with maxAgeSeconds to continue to serve cached responses after their time-to-live has expired.
  * @param {Object} options.edge.key A custom cache key to override the default caching behavior.  Use `createCustomCacheKey()` to split the cache by
  *  headers and cookies, and/or normalize the cache by removing specific query parameters.
  * @param {Function} options.edge.surrogateKey A function that is passed the route params and the request and returns a surrogate key under which to cache the response.
@@ -79,17 +77,13 @@ export default function cache({ edge, server, client }) {
           response.cacheOnClient(true)
         }
       } else if (edge) {
-        if (edge.maxAgeSeconds || edge.staleWhileRevalidateSeconds) {
+        if (edge.maxAgeSeconds) {
           // For fetch to read
           env.shouldSendCookies =
             edge.key && edge.key.getCookieNames ? edge.key.getCookieNames() : false
 
           response.relayUpstreamCookies(false)
-
-          response.cacheAtEdge({
-            maxAgeSeconds: edge.maxAgeSeconds,
-            staleWhileRevalidateSeconds: edge.staleWhileRevalidateSeconds
-          })
+          response.cacheOnServer(edge.maxAgeSeconds)
         }
 
         if (typeof edge.surrogateKey === 'function') {

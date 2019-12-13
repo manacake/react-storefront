@@ -84,7 +84,6 @@ export default function responseHeaderTransform({
   // never cache responses with an error status or temporary redirect
   if (headers.statusCode >= 400 || headers.statusCode === 302) {
     headers.removeAllHeaders('cache-control')
-    headers.removeAllHeaders('x-moov-cache-control')
   }
 
   // The browser should never cache rejected prefetches, otherwise it has the effect of

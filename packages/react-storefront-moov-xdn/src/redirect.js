@@ -11,7 +11,11 @@ import { cache } from './cache'
 function isAmpPost() {
   const { referer } = env
 
-  return referer && referer.split('?')[0].endsWith('.amp') && env.method.toLowerCase() === 'post'
+  return (
+    referer && 
+    referer.split('?')[0].endsWith('.amp') &&
+    env.method.toLowerCase() === 'post'
+  )
 }
 
 /**
@@ -19,7 +23,7 @@ function isAmpPost() {
  * @param {String} url The destination url.  Can be relative or absolute.
  * @param {Number} statusCode The status code to send.  Defaults to 301
  */
-export function redirectTo(url, statusCode = 301) {
+export function redirectTo(url, statusCode=301) {
   const protocol = (env.referer && env.referer.split(/:/)[0]) || 'https'
 
   if (!url.match(/https?:\/\//)) {
@@ -27,19 +31,16 @@ export function redirectTo(url, statusCode = 301) {
   }
 
   if (isAmpPost()) {
-    headers.addHeader('amp-redirect-to', url)
-    headers.addHeader(
-      'access-control-expose-headers',
-      'AMP-Access-Control-Allow-Source-Origin,AMP-Redirect-To'
-    )
-    headers.addHeader('amp-access-control-allow-source-origin', `${protocol}://${env.host}`)
+    headers.addHeader("amp-redirect-to", url)
+    headers.addHeader("access-control-expose-headers", "AMP-Access-Control-Allow-Source-Origin,AMP-Redirect-To")
+    headers.addHeader("amp-access-control-allow-source-origin", `${protocol}://${env.host}`)
   } else {
-    headers.removeAllHeaders('Location')
-    headers.addHeader('Location', url)
+    headers.removeAllHeaders("Location")
+    headers.addHeader("Location", url)
     headers.statusCode = statusCode
   }
 
-  cache({ serverMaxAge: 0, serverStaleWhileRevalidate: 0, browserMaxAge: 0 })
+  cache({ serverMaxAge: 0, browserMaxAge: 0 })
 }
 
 /**
