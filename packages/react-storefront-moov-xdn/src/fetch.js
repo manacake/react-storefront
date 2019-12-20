@@ -134,7 +134,7 @@ function pickCookies(fromCookies, names) {
     const value = fromCookies[name]
 
     if (value !== undefined) {
-      cookies.push(`${encodeURIComponent(name)}=${encodeURIComponent(fromCookies[name])}`)
+      cookies.push(`${name}=${fromCookies[name]}`)
     }
   }
 

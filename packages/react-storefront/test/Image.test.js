@@ -7,6 +7,7 @@ import { mount } from 'enzyme'
 import Image from '../src/Image'
 import { Provider } from 'mobx-react'
 import AppModelBase from '../src/model/AppModelBase'
+import { configureImageService, XDN_IMAGE_SERVICE, LEGACY_IMAGE_SERVICE } from '../src/imageService'
 
 describe('Image', () => {
   it('should render', () => {
@@ -81,7 +82,7 @@ describe('Image', () => {
     )
 
     const img = wrapper.find('img')
-    expect(img.prop('src')).toBe('https://opt.moovweb.net/?width=300&img=%2Ffoo.png')
+    expect(img.prop('src')).toBe('https://opt.moovweb.net/img?width=300&img=%2Ffoo.png')
   })
 
   it('should use the not found image when the primary src fails', done => {
@@ -112,6 +113,27 @@ describe('Image', () => {
       const img = wrapper.find('img')
       expect(img.prop('src')).toBe('/foo.png')
       done()
+    })
+  })
+
+  describe('imageService/configureImageService', () => {
+    beforeEach(() => {
+      configureImageService(XDN_IMAGE_SERVICE, { version: '2' })
+    })
+
+    afterEach(() => {
+      configureImageService(LEGACY_IMAGE_SERVICE)
+    })
+
+    it('should use the configured image service', () => {
+      const wrapper = mount(
+        <Provider app={AppModelBase.create({ amp: false })}>
+          <Image src="https://images.com/foo.png" aspectRatio={50} optimize={{ width: 100 }} />
+        </Provider>
+      )
+      expect(wrapper.find('img').prop('src')).toBe(
+        'https://optimize.moovweb.net/v2/img?width=100&img=https%3A%2F%2Fimages.com%2Ffoo.png'
+      )
     })
   })
 })

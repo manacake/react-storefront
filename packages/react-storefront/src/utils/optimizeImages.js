@@ -3,17 +3,20 @@
  * Copyright © 2017-2019 Moov Corporation.  All rights reserved.
  */
 import cheerio from 'cheerio'
-import qs from 'qs'
+import { createOptimizedSrc } from '../imageService'
 
 /**
- * Transforms image source to come from the Moovweb Image Optimizer
- * @param {String} img         Image source URL
- * @param {Object} options     Transformation options
- * @returns {String}           Optimized image URL
+ * Transforms image source to point to the Moovweb image optimizer.
+ * @param {String} src
+ * @param {Object} options
+ * @param {Number} options.height The max height of the image when served to phones
+ * @param {Number} options.width The max width of the image when served to phones
+ * @param {Number} options.quality A number from 1-100 representing the amount to downscale the source image when served to phones
+ * @param {Object} options.format "jpeg" or "webp" If webp is specified, webp will only be served to browsers that support it.
+ * @return {String}
  */
-function transformSource(img, options = { quality: 75 }) {
-  const query = qs.stringify({ ...options, img })
-  return `https://opt.moovweb.net/?${query}`
+function transformSource(src, options = { quality: 75 }) {
+  return createOptimizedSrc(src, options)
 }
 
 /**

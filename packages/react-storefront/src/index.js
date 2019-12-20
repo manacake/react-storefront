@@ -81,6 +81,7 @@ export { default as fetch } from './fetch.js';
 export { default as fetchLatest } from './fetchLatest.js';
 export { default as format } from './format.js';
 export { default as icons } from './icons';
+export { default as imageService } from './imageService.js';
 export { default as menu } from './menu';
 export { default as model } from './model';
 export { default as persist } from './persist.js';

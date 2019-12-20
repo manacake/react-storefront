@@ -74,6 +74,19 @@ yarn release
 
 ## Changelog
 
+### 6.71.0: Dec 19, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.70.2...v6.71.0)
+
+- Added support for the new image optimizer, review `imageService` for information about transitioning
+
+### 6.70.2: Dec 19, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.70.1...v6.70.2)
+
+- `fetchWithCookies` will no longer URI encode cookies when running in a handler with a custom cache key that splits the cache by cookie. URI encoding cookies is not standard and breaks some back ends.
+- Fixed sharing URLs for all `SocialShareButtons` types
+
+### 6.70.1: Dec 19, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.70.0...v6.70.1)
+
+- Fixed infinite reloading in proxied pages. Not running handlers from `Router.watch` on page load anymore.
+
 ### 6.70.0: Dec 9, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.69.1...v6.70.0)
 
 - Added `zoomSrc` to `MediaTypeModel`. Use `zoomSrc` to specify a separate high-resolution URL to display when the user activates the pinch/zoom modal on the PDP.
@@ -82,9 +95,13 @@ yarn release
 
 - Fixed security vulnerability by upgrading Lodash
 
-### 6.69.0: Dec 6, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.68.1...v6.69.0)
+### 6.69.0: Dec 6, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.68.2...v6.69.0)
 
 - Added ability to pass props into `Tab` component from `NavTab`
+
+### 6.68.2: Dec 18, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.68.1...v6.68.2)
+
+- Rolls back 6.68.1, which it turns out was unnecessary (not released).
 
 ### 6.68.1: Nov 27, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.68.0...v6.68.1)
 

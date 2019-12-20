@@ -9,7 +9,7 @@ describe('optimizeImages', () => {
     `)
     expect(html).toEqual(`
       <div>
-        <img src="https://opt.moovweb.net/?quality=75&img=http%3A%2F%2Fplacekitten.com%2F200%2F300">
+        <img src="https://opt.moovweb.net/img?quality=75&img=http%3A%2F%2Fplacekitten.com%2F200%2F300">
       </div>
     `)
   })
@@ -25,8 +25,8 @@ describe('optimizeImages', () => {
     )
     expect(html).toEqual(`
       <div>
-        <img src="https://opt.moovweb.net/?quality=50&img=http%3A%2F%2Fplacekitten.com%2F200%2F300">
-        <img src="https://opt.moovweb.net/?quality=50&img=http%3A%2F%2Fplacekitten.com%2F500">
+        <img src="https://opt.moovweb.net/img?quality=50&img=http%3A%2F%2Fplacekitten.com%2F200%2F300">
+        <img src="https://opt.moovweb.net/img?quality=50&img=http%3A%2F%2Fplacekitten.com%2F500">
       </div>
     `)
   })

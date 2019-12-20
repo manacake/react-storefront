@@ -352,6 +352,38 @@ describe('fetchWithCookies', () => {
 
     expect(result).toEqual({ success: true })
   })
+
+  it('should not encode cookies', async () => {
+    const body = {
+      title: 'foo',
+      body: 'bar',
+      userId: 1
+    }
+
+    env.rsf_request = {
+      cookies: {
+        foo: 'this cookie has a space'
+      }
+    }
+
+    env.shouldSendCookies = ['foo']
+
+    nock('https://api.com', {
+      reqheaders: {
+        cookie: 'foo=this cookie has a space',
+        'content-type': 'application/json',
+        'content-length': 39
+      }
+    })
+      .post('/posts/1', JSON.stringify(body))
+      .reply(200, { success: true })
+
+    const result = await fetchWithCookies('https://api.com/posts/1', { body }).then(res =>
+      res.json()
+    )
+
+    expect(result).toEqual({ success: true })
+  })
 })
 
 describe('redirect', () => {
@@ -435,9 +467,9 @@ describe('redirect', () => {
       expect(result).toEqual({ redirect: 'https://www.example.com/redirect0' })
     })
     it('should return a redirect object, stringified', async () => {
-      const result = await fetch('https://www.example.com/redirect1', { redirect: 'manual' }).then(
-        res => res.text()
-      )
+      const result = await fetch('https://www.example.com/redirect1', {
+        redirect: 'manual'
+      }).then(res => res.text())
       expect(result).toEqual(JSON.stringify({ redirect: 'https://www.example.com/redirect0' }))
     })
   })

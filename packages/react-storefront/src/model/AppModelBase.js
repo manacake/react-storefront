@@ -105,6 +105,10 @@ export const LocationModel = types
 
     get uri() {
       return self.pathname + self.search
+    },
+
+    get href() {
+      return self.urlBase + self.uri
     }
   }))
 

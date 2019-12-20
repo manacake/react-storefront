@@ -572,6 +572,15 @@ describe('Router:Node', function() {
   })
 
   describe('watch', () => {
+    it('should not call any handlers until history changes', () => {
+      process.env.MOOV_RUNTIME = 'client'
+      const history = createMemoryHistory()
+      history.push('/search')
+      const handler = jest.fn()
+      new Router().get('/search', handler).watch(history, jest.fn())
+      expect(handler).not.toHaveBeenCalled()
+    })
+
     it('should run route when history changes', () => {
       const history = createMemoryHistory()
       history.push('/')

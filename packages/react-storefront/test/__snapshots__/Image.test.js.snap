@@ -51,7 +51,7 @@ exports[`Image should use the image optimizer when quality is set 1`] = `
       <Image quality={50} src="/foo.png" aspectRatio={50} classes={{...}} amp={false} contain={false} fill={false} lazy={false} lazyOffset={100} optimize={{...}}>
         <div className="RSFImage-root-1 RSFImage-contain-3">
           <div style={{...}} />
-          <img src="https://opt.moovweb.net/?img=%2Ffoo.png&quality=50" className="RSFImage-fit-2" layout={{...}} height={[undefined]} width={[undefined]} alt={[undefined]} amp-bind={[undefined]} onError={[Function]} />
+          <img src="https://opt.moovweb.net/img?quality=50&img=%2Ffoo.png" className="RSFImage-fit-2" layout={{...}} height={[undefined]} width={[undefined]} alt={[undefined]} amp-bind={[undefined]} onError={[Function]} />
         </div>
       </Image>
     </inject-Image>
