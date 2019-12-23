@@ -74,6 +74,14 @@ yarn release
 
 ## Changelog
 
+### 6.72.0 [diff](https://github.com/moovweb/react-storefront/compare/v6.71.1...v6.72.0)
+
+- Added `thumbnailImageProps` to `ImageSwitcher`
+
+### 6.71.1 [diff](https://github.com/moovweb/react-storefront/compare/v6.71.0...v6.71.1)
+
+- Fixed support for hydration of multiple components on adapt pages
+
 ### 6.71.0: Dec 19, 2019 [diff](https://github.com/moovweb/react-storefront/compare/v6.70.2...v6.71.0)
 
 - Added support for the new image optimizer, review `imageService` for information about transitioning

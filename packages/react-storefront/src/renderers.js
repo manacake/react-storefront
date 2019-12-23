@@ -207,7 +207,7 @@ export async function render({
   initialStateProperty,
   injectAssets = true,
   minifyStyles = false,
-  cssPrefix
+  cssPrefix = ''
 }) {
   const registry = new SheetsRegistry()
 
@@ -221,17 +221,23 @@ export async function render({
     cssPrefix
   })
 
+  const scripts = getScripts({ stats, chunk: clientChunk })
+
   const result = {
     html,
-    style: await renderStyle({ registry, minify: minifyStyles }),
+    style: await renderStyle({ id: `ssr-css-${cssPrefix}`, registry, minify: minifyStyles }),
     initialStateScript: renderInitialStateScript({ state, defer: false, initialStateProperty }),
-    componentScript: getScripts({ stats, chunk: clientChunk }).map(renderScript)
+    componentScript: scripts.map(renderScript)
   }
 
   if (injectAssets) {
     $head.append(result.style)
     $body.append(result.initialStateScript)
-    $body.append(...result.componentScript)
+    scripts.forEach(src => {
+      if (!$body.find(`script[src="${src}"]`).length) {
+        $body.append(renderScript(src))
+      }
+    })
   }
 
   return result

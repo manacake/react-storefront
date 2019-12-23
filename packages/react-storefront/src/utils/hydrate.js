@@ -17,8 +17,8 @@ import createGenerateClassName from './createGenerateClassName'
  * after hydration.
  * @private
  */
-function removeSSRStyles() {
-  const jssStyles = document.getElementById('ssr-css')
+function removeSSRStyles(id) {
+  const jssStyles = document.getElementById(id)
 
   if (jssStyles && jssStyles.parentNode) {
     jssStyles.parentNode.removeChild(jssStyles)
@@ -65,7 +65,7 @@ export default function hydrate({
       </JssProvider>
     </Provider>,
     target,
-    removeSSRStyles
+    () => removeSSRStyles(`ssr-css-${cssPrefix}`)
   )
   window.moov.hydrated = true
   return state

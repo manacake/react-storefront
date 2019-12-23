@@ -283,6 +283,11 @@ export default class ImageSwitcher extends Component {
     loadingThumbnailProps: PropTypes.object,
 
     /**
+     * Props to apply to the thumbnail images
+     */
+    thumbnailImageProps: PropTypes.object,
+
+    /**
      * Props to be added to the Image child components.
      */
     imageProps: PropTypes.object,
@@ -399,7 +404,7 @@ export default class ImageSwitcher extends Component {
   }
 
   renderThumbnails() {
-    const { classes, thumbnailsTitle, notFoundSrc } = this.props
+    const { classes, thumbnailsTitle, notFoundSrc, thumbnailImageProps } = this.props
     const { thumbnails } = this.state
     const modifiedThumbs = thumbnails && thumbnails.map(({ src, alt }) => ({ imageUrl: src, alt }))
     const { viewerActive, selectedIndex } = this.state
@@ -419,7 +424,8 @@ export default class ImageSwitcher extends Component {
             imageProps={{
               className: classes.thumbnail,
               notFoundSrc,
-              fill: true
+              fill: true,
+              ...thumbnailImageProps
             }}
             centered
             initialSelectedIdx={selectedIndex}
