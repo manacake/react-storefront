@@ -74,6 +74,10 @@ yarn release
 
 ## Changelog
 
+### 6.72.1 [diff](https://github.com/moovweb/react-storefront/compare/v6.72.0...v6.72.1)
+
+- Fixed unhandled exceptions relating to service workers in Firefox and Safari.
+
 ### 6.72.0 [diff](https://github.com/moovweb/react-storefront/compare/v6.71.1...v6.72.0)
 
 - Added `thumbnailImageProps` to `ImageSwitcher`

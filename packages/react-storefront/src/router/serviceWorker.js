@@ -8,6 +8,15 @@ let installed = false
  * @license
  * Copyright © 2017-2019 Moov Corporation.  All rights reserved.
  */
+
+function messageSW(params) {
+  try {
+    navigator.serviceWorker.controller.postMessage(params)
+  } catch (e) {
+    console.warn('Could not message Service Worker', e)
+  }
+}
+
 /**
  * Cache content using the service worker.  If content is not supplied, the service worker will fetch
  * the content from the server
@@ -25,14 +34,14 @@ export async function cache(path, cacheData) {
     }
 
     if (cacheData) {
-      navigator.serviceWorker.controller.postMessage({
+      messageSW({
         action: 'cache-state',
         path,
         apiVersion,
         cacheData
       })
     } else {
-      navigator.serviceWorker.controller.postMessage({ action: 'cache-path', path, apiVersion })
+      messageSW({ action: 'cache-path', path, apiVersion })
     }
   }
 }
@@ -72,7 +81,7 @@ export function prefetch(path) {
  */
 export async function abortPrefetches() {
   if (await waitForServiceWorkerController()) {
-    navigator.serviceWorker.controller.postMessage({ action: 'abort-prefetches' })
+    messageSW({ action: 'abort-prefetches' })
   }
 }
 
@@ -81,7 +90,7 @@ export async function abortPrefetches() {
  */
 export async function resumePrefetches() {
   if (await waitForServiceWorkerController()) {
-    navigator.serviceWorker.controller.postMessage({ action: 'resume-prefetches' })
+    messageSW({ action: 'resume-prefetches' })
   }
 }
 
@@ -95,7 +104,7 @@ export async function resumePrefetches() {
  */
 export async function configureCache(options) {
   if (await waitForServiceWorkerController()) {
-    navigator.serviceWorker.controller.postMessage({ action: 'configure-runtime-caching', options })
+    messageSW({ action: 'configure-runtime-caching', options })
   }
 }
 
@@ -120,19 +129,23 @@ export async function clearCache() {
  * @private
  */
 export async function waitForServiceWorkerController() {
-  if (!navigator.serviceWorker || !navigator.serviceWorker.ready) {
+  if (!navigator.serviceWorker) {
     return false
   }
 
   return new Promise(resolve => {
-    navigator.serviceWorker.ready.then(() => {
-      if (navigator.serviceWorker.controller) {
-        return resolve(true)
-      }
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        return resolve(true)
+    navigator.serviceWorker.ready
+      .then(() => {
+        if (navigator.serviceWorker.controller) {
+          return resolve(true)
+        }
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          resolve(true)
+        })
       })
-    })
+      // According to specs this should never reject. However, FF does reject when the setting
+      // to clear cache after window close is enabled
+      .catch(() => resolve(false))
   })
 }
 
@@ -144,7 +157,7 @@ export async function waitForServiceWorkerController() {
 export async function removeOldCaches() {
   if (await waitForServiceWorkerController()) {
     if (window.moov && window.moov.apiVersion) {
-      navigator.serviceWorker.controller.postMessage({
+      messageSW({
         action: 'remove-old-caches',
         apiVersion: window.moov.apiVersion
       })
@@ -169,7 +182,7 @@ export default {
 }
 
 if (typeof window !== 'undefined') {
-  waitForServiceWorkerController().then(() => {
-    installed = true
+  waitForServiceWorkerController().then(isInstalled => {
+    installed = isInstalled
   })
 }
